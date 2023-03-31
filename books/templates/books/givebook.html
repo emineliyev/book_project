@@ -1,0 +1,41 @@
+{% extends 'books/base.html' %}
+{% block title %}{{ block.super }}: Kitab ver{% endblock %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="text-center text-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16"
+                     class="bi bi-bookmark-plus-fill me-2 mb-1">
+                    <path fill-rule="evenodd"
+                          d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm6.5-11a.5.5 0 0 0-1 0V6H6a.5.5 0 0 0 0 1h1.5v1.5a.5.5 0 0 0 1 0V7H10a.5.5 0 0 0 0-1H8.5V4.5z"></path>
+                </svg>
+                KITAB VER
+            </h3>
+            <hr>
+            <div class="block-div">
+                <form class="d-flex flex-column new-book-form" action="{% url 'givebook' %}" method="post">
+                    {% csrf_token %}
+                    <label for="{{ form.book_name.id_for_label }}" class="form-label me-2">Kitab adı
+                        {{ form.book_name }}
+                    </label>
+
+                    <label for="{{ form.reader.id_for_label }}" class="form-label me-2">Oxuyucunun id nömrəsi
+                        {{ form.reader }}
+                    </label>
+
+                    <label for="{{ form.date_received.id_for_label }}" class="form-label me-2">Götürdüyü tarix<br></label>
+                    {{ form.date_received }}
+
+                    <label for="form.will_return_date.id_for_label " class="form-label me-2">Qaytaracağı tarix<br>
+                        {{ form.will_return_date }}
+                    </label>
+
+                    <button class="btn btn-success d-lg-flex save-btn" type="submit">Yadda saxla</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

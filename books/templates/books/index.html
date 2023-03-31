@@ -1,0 +1,123 @@
+{% extends 'books/base.html' %}
+{% load bootstrap %}
+{% block title %}{{ block.super }}: Əsas səhifə{% endblock %}
+{% block content %}
+<div class="container-fluid mb-5">
+    {% include 'inc/message.html' %}
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="text-center">Filter</h3>
+            <form method="get">
+                <div class="d-flex">
+                    {{ my_filter.form|bootstrap }}
+                </div>
+                <button class="btn btn-primary btn-sm search-btn mt-3" data-bs-toggle="tooltip" data-bss-tooltip=""
+                        type="submit" title="Axtar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                         viewBox="0 0 16 16" class="bi bi-search mb-1">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
+                    </svg>
+                </button>
+                <a href="/" class="btn btn-secondary btn-sm search-btn mt-3" data-bs-toggle="tooltip"
+                   data-bss-tooltip="" type="reset" title="Sıfırla">Sıfırla</a>
+            </form>
+            <hr>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16"
+                     class="bi bi-list-ol me-2 mb-1">
+                    <path fill-rule="evenodd"
+                          d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5z"></path>
+                    <path d="M1.713 11.865v-.474H2c.217 0 .363-.137.363-.317 0-.185-.158-.31-.361-.31-.223 0-.367.152-.373.31h-.59c.016-.467.373-.787.986-.787.588-.002.954.291.957.703a.595.595 0 0 1-.492.594v.033a.615.615 0 0 1 .569.631c.003.533-.502.8-1.051.8-.656 0-1-.37-1.008-.794h.582c.008.178.186.306.422.309.254 0 .424-.145.422-.35-.002-.195-.155-.348-.414-.348h-.3zm-.004-4.699h-.604v-.035c0-.408.295-.844.958-.844.583 0 .96.326.96.756 0 .389-.257.617-.476.848l-.537.572v.03h1.054V9H1.143v-.395l.957-.99c.138-.142.293-.304.293-.508 0-.18-.147-.32-.342-.32a.33.33 0 0 0-.342.338v.041zM2.564 5h-.635V2.924h-.031l-.598.42v-.567l.629-.443h.635V5z"></path>
+                </svg>
+                Kitab alanların siyahısı
+            </h3>
+            <div class="table-responsive">
+                <table class="table table-hover table-sm">
+                    <caption class="caption-top">Kitab alanlar: {{ counter }} nəfər</caption>
+                    <thead>
+                    <tr>
+                        <th>Ad</th>
+                        <th>Soyad</th>
+                        <th>Sinif kodu</th>
+                        <th>Götürdüyü tarix</th>
+                        <th>Qaytaracağı tarix</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for givebook in givebooks %}
+                    <tr class="mb-3">
+                        <td>{{ givebook.reader.first_name }}</td>
+                        <td>{{ givebook.reader.last_name }}</td>
+                        <td>{{ givebook.reader.class_number }}</td>
+                        <td class="text-primary">{{ givebook.date_received|date:"d.m.Y" }}</td>
+
+                        {% if givebook.will_return_date < today %}
+                        <td class="text-danger">{{ givebook.will_return_date|date:"d.m.Y" }}</td>
+                        {% else %}
+                        <td class="text-success">{{ givebook.will_return_date|date:"d.m.Y" }}</td>
+                        {% endif %}
+
+                        {% if givebook.will_return_date < today %}
+                        <td class="btn-cell">
+                            <a href="{% url 'delete' givebook.pk %}" class="btn btn-sm border-danger"
+                               data-bs-toggle="tooltip" data-bss-tooltip=""
+                               type="button" title="Təhvil verdi">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                     viewBox="0 0 16 16" class="bi bi-check-square-fill text-danger mb-1">
+                                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z"></path>
+                                </svg>
+                            </a>
+                        </td>
+                        {% else %}
+                        <td class="btn-cell">
+                            <a href="{% url 'delete' givebook.pk %}" class="btn btn-sm border-success"
+                               data-bs-toggle="tooltip" data-bss-tooltip=""
+                               type="button" title="Təhvil verdi">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                     viewBox="0 0 16 16" class="bi bi-check-square-fill text-success mb-1">
+                                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z"></path>
+                                </svg>
+                            </a>
+                        </td>
+                        {% endif %}
+                        <td class="btn-cell"><a class="btn btn-sm border-info" role="button" data-bs-toggle="tooltip"
+                                                data-bss-tooltip="" title="Kitab siyahısı"
+                                                href="{% url 'booklist' givebook.pk %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                 viewBox="0 0 16 16" class="bi bi-eye-fill text-info mb-1">
+                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path>
+                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"></path>
+                            </svg>
+                        </a>
+                        </td>
+
+                        <td class="btn-cell">
+                            <a href="{% url 'updategivebook' givebook.pk %}" class="btn btn-sm border-primary"
+                               data-bs-toggle="tooltip" data-bss-tooltip=""
+                               type="button" title="Redakte et">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                     viewBox="0 0 16 16" class="bi bi-pencil-square text-primary mb-1">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
+                                    <path fill-rule="evenodd"
+                                          d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="az">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>{% block title %}Kitabxana{% endblock %}</title>
+    <link rel="icon" type="image/png" sizes="512x512" href="{% static '/img/unnamed.png' %}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{% static '/img/unnamed.png' %}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{% static '/img/unnamed.png' %}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{% static '/img/unnamed.png' %}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{% static '/img/unnamed.png' %}">
+    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;700&amp;display=swap">
+    <link rel="stylesheet" href="{% static '/css/Navbar-Centered-Brand-Dark-icons.css' %}">
+    <link rel="stylesheet" href="{% static '/css/styles.css' %}">
+</head>
+
+<body>
+{% include 'inc/_nav.html' %}
+{% block content %}{% endblock %}
+<script src="{% static '/js/jquery.min.js' %}"></script>
+<script src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/js/bs-init.js' %}"></script>
+<script>
+    setTimeout(function () {
+        if ($('#msg').length > 0) {
+            $('#msg').remove();
+        }
+    }, 3000)
+</script>
+</body>
+
+</html>

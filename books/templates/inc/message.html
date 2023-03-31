@@ -1,0 +1,9 @@
+<div class="col-4">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert {{ message.tags }} alert-secondary" role="alert" id="msg">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>

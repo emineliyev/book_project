@@ -1,0 +1,24 @@
+.btn-cell {
+  width: 40px;
+  max-width: 40px;
+}
+
+.search-btn {
+  margin-bottom: 2px;
+}
+
+.save-btn {
+  width: 200px;
+  max-width: 200px;
+}
+
+.block-div {
+  margin: 0 auto;
+  width: 600px;
+  max-width: 600px;
+}
+
+.form-group {
+  margin-right: 5px;
+}
+
