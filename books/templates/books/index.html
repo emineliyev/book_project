@@ -18,7 +18,7 @@
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
                     </svg>
                 </button>
-                <a href="/" class="btn btn-secondary btn-sm search-btn mt-3" data-bs-toggle="tooltip"
+                <a href="{% url 'index' %}" class="btn btn-secondary btn-sm search-btn mt-3" data-bs-toggle="tooltip"
                    data-bss-tooltip="" type="reset" title="Sıfırla">Sıfırla</a>
             </form>
             <hr>
@@ -44,7 +44,7 @@
                     <tr>
                         <th>Ad</th>
                         <th>Soyad</th>
-                        <th>Sinif kodu</th>
+                        <th>FİN kod</th>
                         <th>Götürdüyü tarix</th>
                         <th>Qaytaracağı tarix</th>
                         <th></th>
@@ -57,7 +57,7 @@
                     <tr class="mb-3">
                         <td>{{ givebook.reader.first_name }}</td>
                         <td>{{ givebook.reader.last_name }}</td>
-                        <td>{{ givebook.reader.class_number }}</td>
+                        <td>{{ givebook.reader.document_id }}</td>
                         <td class="text-primary">{{ givebook.date_received|date:"d.m.Y" }}</td>
 
                         {% if givebook.will_return_date < today %}

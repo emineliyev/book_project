@@ -19,7 +19,7 @@ class Book(models.Model):
 class Reader(models.Model):
     first_name = models.CharField(max_length=60, verbose_name='Ad')
     last_name = models.CharField(max_length=60, verbose_name='Soyad')
-    class_number = models.PositiveIntegerField(verbose_name='Sinif kodu')
+    document_id = models.SlugField(unique=True, verbose_name='FİN kod', max_length=7)
     id_number = models.PositiveIntegerField(unique=True, verbose_name='İd nömrəsi', default=get_number,
                                             null=True, blank=True)
     black_list = models.BooleanField(default=False, verbose_name='Qara siyahı', )
@@ -36,7 +36,7 @@ class Reader(models.Model):
 
 class GiveBook(models.Model):
     book_name = models.ForeignKey(Book, on_delete=models.PROTECT, verbose_name='Kitab adı')
-    reader = models.ForeignKey(Reader, on_delete=models.PROTECT, verbose_name='Oxuyucunun id nömrəsi')
+    reader = models.ForeignKey(Reader, on_delete=models.PROTECT, related_name='reader_id', verbose_name='Oxuyucunun id nömrəsi')
     date_received = models.DateField(verbose_name='Götürdüyü tarix')
     will_return_date = models.DateField(verbose_name='Qataracağı tarix')
 

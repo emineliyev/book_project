@@ -1,7 +1,8 @@
 from datetime import date
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import ProtectedError
-from django.shortcuts import redirect
+from django.http import JsonResponse
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.contrib import messages
 from .filters import BookGiveFilter, ReaderFilter, BookFilter
@@ -75,6 +76,7 @@ def delete_reader(request, reader_id):
     try:
         reader.delete()
         messages.success(request, 'Oxuyucu uğurla silindi!')
+
     except ProtectedError:
         messages.error(request, 'Oxuyucu kitabı təhvil verməyib!')
     return redirect('readers')
@@ -98,15 +100,40 @@ class Books(ListView):
         return context
 
 
-class CreateBook(SuccessMessageMixin, CreateView):
-    form_class = CreateBookForm
-    template_name = 'books/addbook.html'
-    success_url = reverse_lazy('books')
-    success_message = 'Yeni kitab uğurla əlavə edildi!'
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+
+def add_new_book(request):
+    if request.method == 'POST':
+        form = CreateBookForm(request.POST)
+        if form.is_valid():
+            book_name_data = request.POST.get('book_name')
+            author_data = request.POST.get('author')
+            genre_data = request.POST.get('genre')
+            form = Book(book_name=book_name_data, author=author_data, genre=genre_data)
+            form.save()
+            return JsonResponse({'status': 'Good'})
+        else:
+            return JsonResponse({'status': 'error'})
+    else:
+        form = CreateBookForm()
+        context = {
+            'form': form
+        }
+    return render(request, 'books/addbook.html', context=context)
+
+
+
+# class CreateBook(SuccessMessageMixin, CreateView):
+#     form_class = CreateBookForm
+#     template_name = 'books/addbook.html'
+#     success_url = reverse_lazy('books')
+#     success_message = 'Yeni kitab uğurla əlavə edildi!'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         return context
 
 
 class UpdateBook(SuccessMessageMixin, UpdateView):
@@ -123,8 +150,11 @@ class UpdateBook(SuccessMessageMixin, UpdateView):
 
 def delete_book(request, book_pk):
     book = Book.objects.get(id=book_pk)
-    book.delete()
-    messages.success(request, 'Kitab uğurla silindi!')
+    try:
+        book.delete()
+        messages.success(request, 'Kitab uğurla silindi!')
+    except ProtectedError:
+        messages.error(request, 'Kitab icarədədir!')
     return redirect('books')
 
 

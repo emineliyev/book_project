@@ -1,0 +1,37 @@
+{% extends 'books/base.html' %}
+{% block title %}Sistemə giriş{% endblock %}
+{% load static %}
+{% block content %}
+{% include 'inc/message.html' %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+                    <h3 class="text-secondary text-center">Sistemə girş</h3>
+            <div class="form-control">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="{{ form.email.id_for_label }}" class="form-label me-2">E-mail</label>
+                        {{ form.email }}
+                        <span class="text-danger">
+                            {{ form.email.errors }}
+                        </span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.password1.id_for_label }}" class="form-label me-2">Şifrə</label>
+                        {{ form.password }}
+                        <span class="text-danger">
+                            {{ form.password.errors }}
+                        </span>
+                    </div>
+                    <button type="submit" class="btn btn-success">Daxil ol</button>
+                </form>
+            </div>
+            <br>
+            <h5>Sistemə daxil olmaq üçün üçün nümünə.</h5>
+            <span class="text-secondary">İstifadəçi adı: example@gmail.com</span>
+            <p class="text-secondary">Şifrə: example123</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -20,10 +20,12 @@
 
 <body>
 {% include 'inc/_nav.html' %}
+
 {% block content %}{% endblock %}
 <script src="{% static '/js/jquery.min.js' %}"></script>
 <script src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>
 <script src="{% static '/js/bs-init.js' %}"></script>
+<script src="{% static '/js/main.js' %}"></script>
 <script>
     setTimeout(function () {
         if ($('#msg').length > 0) {

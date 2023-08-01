@@ -16,7 +16,7 @@
             </h3>
             <hr>
             <div class="block-div">
-                <form  method="post"  class="d-flex flex-column new-book-form" action="{% url 'addreader' %}">
+                <form method="post" class="d-flex flex-column new-book-form" action="{% url 'addreader' %}">
                     {% csrf_token %}
                     <label for="{{ form.first_name.id_for_label }}" class="form-label me-2"></label>Ad
                     {{ form.first_name }}
@@ -24,11 +24,13 @@
                     <label for="{{ form.last_name.id_for_label }}" class="form-label me-2">Soyad<br></label>
                     {{ form.last_name }}
 
-                    <label for="{{ form.class_number.id_for_label }}" class="form-label me-2">Sinif kodu<br></label>
-                    {{ form.class_number }}
+                    <label for="{{ form.document_id.id_for_label }}" class="form-label me-2">FİN kod<br></label>
+                    {{ form.document_id }}
 
-<!--                    <label for="{{ id_number.id_for_label }}" class="form-label me-2">İd nömrəsi</label>-->
-<!--                    {{ form.id_number }}-->
+                    <span class="text-danger">
+                        {{ form.document_id.errors }}
+                    </span>
+
                     <button class="btn btn-success d-lg-flex save-btn mt-2" type="submit">Yadda saxla</button>
                 </form>
             </div>

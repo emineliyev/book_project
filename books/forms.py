@@ -1,17 +1,15 @@
 from django import forms
-
 from books.models import Reader, Book, GiveBook
 
 
 class CreateReaderForm(forms.ModelForm):
-
     class Meta:
         model = Reader
-        fields = ('first_name', 'last_name', 'class_number', 'id_number', 'black_list')
+        fields = ('first_name', 'last_name', 'document_id', 'id_number', 'black_list')
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'class_number': forms.NumberInput(attrs={'class': 'form-control'}),
+            'document_id': forms.TextInput(attrs={'class': 'form-control'}),
             'id_number': forms.NumberInput(attrs={'class': 'form-control', 'disabled': True}),
         }
 
@@ -32,6 +30,11 @@ class DateInput(forms.DateInput):
 
 
 class GiveBookForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['book_name'].empty_label = 'Kitab seçilməyib'
+        self.fields['reader'].empty_label = 'Oxuyucu seçilməyib'
+
     class Meta:
         model = GiveBook
         fields = ('book_name', 'reader', 'date_received', 'will_return_date')

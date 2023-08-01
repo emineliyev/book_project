@@ -1,0 +1,39 @@
+{% extends 'books/base.html' %}
+{% block title %}Qeydiyyat{% endblock %}
+{% load static %}
+{% block content %}
+{% include 'inc/message.html' %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="form-control">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="{{ form.email.id_for_label }}" class="form-label me-2">E-mail</label>
+                        {{ form.email }}
+                        <span class="text-danger">
+                            {{ form.email.errors }}
+                        </span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.password1.id_for_label }}" class="form-label me-2">Şifrə</label>
+                        {{ form.password1 }}
+                        <span class="text-danger">
+                            {{ form.password1.errors }}
+                        </span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.password2.id_for_label }}" class="form-label me-2">Şifrənin təstiqi</label>
+                        {{ form.password2 }}
+                        <span class="text-danger">
+                            {{ form.password2.errors }}
+                        </span>
+                    </div>
+                    <button type="submit" class="btn btn-success">Qeydiyyat</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

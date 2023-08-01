@@ -1,0 +1,18 @@
+{% extends 'books/base.html' %}
+{% load static %}
+{% block title %}
+{% if user.first_name == None %}
+İstifadəçi
+{% else %}
+{{ user.first_name }}: Ayarlar
+{% endif %}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-success">Yadda saxla</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,4 +1,6 @@
 import django_filters
+from django_filters.widgets import RangeWidget
+
 from .models import Reader, Book, GiveBook
 
 
@@ -11,14 +13,14 @@ class BookGiveFilter(django_filters.FilterSet):
 class ReaderFilter(django_filters.FilterSet):
     first_name = django_filters.CharFilter(label='Ad', lookup_expr='icontains')
     last_name = django_filters.CharFilter(label='Soyad', lookup_expr='icontains')
-    class_number = django_filters.CharFilter(label='Sinif kodu', lookup_expr='icontains')
+    document_id = django_filters.CharFilter(label='FİN kod', lookup_expr='icontains')
 
     class Meta:
         model = Reader
         fields = (
             'first_name',
             'last_name',
-            'class_number',
+            'document_id',
         )
 
 

@@ -14,10 +14,13 @@
             </h3>
             <hr>
             <div class="block-div">
-                <form class="d-flex flex-column new-book-form" action="{% url 'addbook' %}" method="post">
+                <form id="book_form" class="d-flex flex-column new-book-form" action="{% url 'addbook' %}" method="post">
                     {% csrf_token %}
                     <label for="{{ form.book_name.id_for_label }}" class="form-label me-2">Kitab adı</label>
                     {{ form.book_name }}
+                    <span class="text-danger">
+                        {{ form.book_name.errors }}
+                    </span>
 
                     <label for="{{ form.author.id_for_label }}" class="form-label me-2">Müəllif<br></label>
                     {{ form.author }}
@@ -25,10 +28,41 @@
                     <label for="{{ form.genre.id_for_label }}" class="form-label me-2">Janr<br></label>
                     {{ form.genre }}
 
-                    <button class="btn btn-success d-lg-flex save-btn mt-2" type="submit">Yadda saxla</button>
+                    <button id="ajaxButton" class="btn btn-success d-lg-flex save-btn mt-2" type="submit">Yadda saxla</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 {% endblock %}
+
+<script>
+    $(document).ready(function (){
+        $('#book_form').submit(function (event){
+            event.preventDefault()
+
+            const book_name_data = ('#id_book_name').val();
+            const author_data = ('#id_author').val()
+            const genre_data = ('#id_genre').val()
+            console.log(genre_data)
+
+            $.ajax({
+                type: 'POST',
+                url: '/addbook/',
+                data: {
+                    'book_name_data': book_name_data,
+                    'author_data': author_data,
+                    'genre_data': genre_data,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function(response){
+                    console.log(response)
+                },
+                error: function (error){
+                    console.log(error)
+                }
+            })
+        })
+    })
+</script>
