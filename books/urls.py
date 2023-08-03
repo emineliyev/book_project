@@ -15,7 +15,7 @@ urlpatterns = [
 
     #  BOOKS
     path('books/', Books.as_view(), name='books'),
-    path('addbook/', add_new_book, name='addbook'),
+    path('addbook/', add_new_book, name='add_new_book'),
     path('booklist/<int:pk>/', GiveBookList.as_view(), name='booklist'),
     path('updatebook/<int:pk>/', UpdateBook.as_view(), name='updatebook'),
     path('deletebook/<int:book_pk>/', delete_book, name='deletebook'),

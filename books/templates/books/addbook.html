@@ -14,7 +14,7 @@
             </h3>
             <hr>
             <div class="block-div">
-                <form id="book_form" class="d-flex flex-column new-book-form" action="{% url 'addbook' %}" method="post">
+                <form id="book_form" class="d-flex flex-column new-book-form" action="{% url 'add_new_book' %}" method="post">
                     {% csrf_token %}
                     <label for="{{ form.book_name.id_for_label }}" class="form-label me-2">Kitab adı</label>
                     {{ form.book_name }}
@@ -30,6 +30,7 @@
 
                     <button id="ajaxButton" class="btn btn-success d-lg-flex save-btn mt-2" type="submit">Yadda saxla</button>
                 </form>
+                <div id="successMessage"></div>
             </div>
         </div>
     </div>
@@ -38,29 +39,25 @@
 
 <script>
     $(document).ready(function (){
-        $('#book_form').submit(function (event){
-            event.preventDefault()
-
-            const book_name_data = ('#id_book_name').val();
-            const author_data = ('#id_author').val()
-            const genre_data = ('#id_genre').val()
-            console.log(genre_data)
+        $('#ajaxButton').click(function (){
+            const book_name = $('#id_book_name').val()
+            const author = $('#id_author').val()
+            const genre = $('#id_genre').val()
 
             $.ajax({
                 type: 'POST',
-                url: '/addbook/',
+                url: '/add_new_book/',
                 data: {
-                    'book_name_data': book_name_data,
-                    'author_data': author_data,
-                    'genre_data': genre_data,
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    'book_name': book_name,
+                    'author': author,
+                    'genre': genre,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
                 },
-                dataType: 'json',
-                success: function(response){
-                    console.log(response)
+                success: function(data){
+                    $('#successMessage').text(data.message)
                 },
-                error: function (error){
-                    console.log(error)
+                error: function (response){
+                    alert('Error')
                 }
             })
         })

@@ -104,18 +104,29 @@ def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
+class CreateBook(SuccessMessageMixin, CreateView):
+    form_class = CreateBookForm
+    template_name = 'books/addbook.html'
+    success_url = reverse_lazy('books')
+    success_message = 'Yeni kitab uğurla əlavə edildi!'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
 def add_new_book(request):
     if request.method == 'POST':
         form = CreateBookForm(request.POST)
         if form.is_valid():
-            book_name_data = request.POST.get('book_name')
-            author_data = request.POST.get('author')
-            genre_data = request.POST.get('genre')
-            form = Book(book_name=book_name_data, author=author_data, genre=genre_data)
+            book_name = request.POST.get('book_name')
+            author = request.POST.get('author')
+            genre = request.POST.get('genre')
+            form = Book(book_name=book_name, author=author, genre=genre)
             form.save()
-            return JsonResponse({'status': 'Good'})
+            return JsonResponse({'message': 'Ugur'})
         else:
-            return JsonResponse({'status': 'error'})
+            return JsonResponse({'message': 'Ugursuzluq'}, status=400)
     else:
         form = CreateBookForm()
         context = {
@@ -124,16 +135,6 @@ def add_new_book(request):
     return render(request, 'books/addbook.html', context=context)
 
 
-
-# class CreateBook(SuccessMessageMixin, CreateView):
-#     form_class = CreateBookForm
-#     template_name = 'books/addbook.html'
-#     success_url = reverse_lazy('books')
-#     success_message = 'Yeni kitab uğurla əlavə edildi!'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         return context
 
 
 class UpdateBook(SuccessMessageMixin, UpdateView):
